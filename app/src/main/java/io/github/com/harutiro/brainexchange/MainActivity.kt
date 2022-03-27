@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import io.github.com.harutiro.brainexchange.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -15,8 +16,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater).apply { setContentView(this.root) }
 
         binding.mainFav.setOnClickListener {
-            val intent = Intent(this,StarterActivity::class.java)
-            startActivity(intent)
+
         }
 
 
@@ -26,15 +26,8 @@ class MainActivity : AppCompatActivity() {
 
     //　アプリバーの部分
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.action_settings -> {
-            updateWebView()
-
-            true
-        }
-
-        R.id.profile_settings ->{
-            tagState = true
-            val intent = Intent(this,EditTagActivity::class.java)
+        R.id.profile_settings -> {
+            val intent = Intent(this,StarterActivity::class.java)
             startActivity(intent)
 
             true
