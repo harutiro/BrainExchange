@@ -48,5 +48,6 @@
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/qr_code_scanner_black_24dp" />
+        app:srcCompat="@drawable/qr_code_scanner_black_24dp"
+        tools:ignore="SpeakableTextPresentCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>
