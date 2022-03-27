@@ -66,18 +66,6 @@
 
     </com.google.android.material.chip.ChipGroup>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/new_flend_fav"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/save_black_24dp"
-        tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
-
     <TextView
         android:id="@+id/new_flend_user_name_text_view"
         android:layout_width="0dp"
