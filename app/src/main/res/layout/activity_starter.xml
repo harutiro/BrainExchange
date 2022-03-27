@@ -20,6 +20,7 @@
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/starter_user_name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="ニックネームを入力してね"
@@ -43,6 +44,7 @@
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/starter_facebook_id_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="FaceBookのIDを入力してね"
