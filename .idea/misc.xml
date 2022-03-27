@@ -5,8 +5,10 @@
       <map>
         <entry key="..\:/Users/harut/AndroidStudioProjects/BrainExchange/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.16" />
         <entry key="..\:/Users/harut/AndroidStudioProjects/BrainExchange/app/src/main/res/drawable/account_circle_black_24dp.xml" value="0.16" />
+        <entry key="..\:/Users/harut/AndroidStudioProjects/BrainExchange/app/src/main/res/drawable/add_a_photo_black_24dp.xml" value="0.1" />
         <entry key="..\:/Users/harut/AndroidStudioProjects/BrainExchange/app/src/main/res/layout/activity_main.xml" value="0.22644927536231885" />
-        <entry key="..\:/Users/harut/AndroidStudioProjects/BrainExchange/app/src/main/res/layout/activity_starter.xml" value="0.22644927536231885" />
+        <entry key="..\:/Users/harut/AndroidStudioProjects/BrainExchange/app/src/main/res/layout/activity_new_flend_register.xml" value="0.2" />
+        <entry key="..\:/Users/harut/AndroidStudioProjects/BrainExchange/app/src/main/res/layout/activity_starter.xml" value="0.4" />
       </map>
     </option>
   </component>

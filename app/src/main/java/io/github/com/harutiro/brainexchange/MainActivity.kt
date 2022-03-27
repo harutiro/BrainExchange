@@ -13,8 +13,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).apply { setContentView(this.root) }
 
-        val intent = Intent(this,StarterActivity::class.java)
-        startActivity(intent)
+        binding.mainFav.setOnClickListener {
+            val intent = Intent(this,StarterActivity::class.java)
+            startActivity(intent)
+        }
+
 
 
     }
