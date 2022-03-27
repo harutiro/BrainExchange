@@ -10,15 +10,10 @@ open class ProfileDateClass: RealmObject{
     open var facebookId: String = ""
     open var brainImageUrl: String = ""
     open var userName: String = ""
-    open var favLists: RealmList<favList>? = null
+    open var favLists: RealmList<FavListClass>? = null
 
     open var freeComment: String = ""
     open var buildings:String = ""
 
 }
 
-open class favList:RealmObject{
-    @PrimaryKey open var id: String = ""
-    open var favNumber:Int = -1
-
-}
