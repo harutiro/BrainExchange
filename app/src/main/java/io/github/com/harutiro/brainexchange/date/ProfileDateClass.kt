@@ -1,5 +1,6 @@
 package io.github.com.harutiro.brainexchange.date
 
+import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import java.util.*
@@ -9,5 +10,15 @@ open class ProfileDateClass: RealmObject{
     open var facebookId: String = ""
     open var brainImageUrl: String = ""
     open var userName: String = ""
-    open var favList: String = ""
+    open var favLists: RealmList<favList>? = null
+
+    open var freeComment: String = ""
+    open var buildings:String = ""
+
+}
+
+open class favList:RealmObject{
+    @PrimaryKey open var id: String = ""
+    open var favNumber:Int = -1
+
 }
