@@ -10,7 +10,7 @@ open class ProfileDateClass: RealmObject{
     open var facebookId: String = ""
     open var brainImageUrl: String = ""
     open var userName: String = ""
-    open var favLists: RealmList<FavListClass>? = null
+    open var favNumbers:String = ""
 
     open var freeComment: String = ""
     open var buildings:String = ""

@@ -52,4 +52,6 @@ dependencies {
 //    realm
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt'
     implementation 'io.realm.kotlin:library-base:0.10.0'
+
+    implementation 'com.google.code.gson:gson:2.8.9'
 }
