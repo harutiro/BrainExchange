@@ -31,9 +31,7 @@ class qrCodeViewActivity : AppCompatActivity() {
             // ImageViewにBitmap形式の画像を設定
             binding.qrCodeViewQrImageView.setImageBitmap(
                 // Bitmap形式でQRコードを生成
-                barcodeEncoder.encodeBitmap(
-                    Gson().toJson(sp.getString("myProfile","")), BarcodeFormat.QR_CODE, 400, 400, mapOf(
-                        EncodeHintType.CHARACTER_SET to "UTF-8"))
+                barcodeEncoder.encodeBitmap(sp.getString("myProfile",""), BarcodeFormat.QR_CODE, 400, 400, mapOf(EncodeHintType.CHARACTER_SET to "UTF-8"))
             )
         } catch (e:Exception){
             // 生成に失敗したらToastで通知
