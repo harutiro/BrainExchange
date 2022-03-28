@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import io.github.com.harutiro.brainexchange.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -16,7 +17,24 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater).apply { setContentView(this.root) }
 
         binding.mainFav.setOnClickListener {
+            val strList = arrayOf("QRコードを表示","QRコードを読み取る")
 
+            AlertDialog.Builder(this) // FragmentではActivityを取得して生成
+                .setTitle("リスト選択ダイアログ")
+                .setItems(strList) { _, which ->
+                    when (which) {
+                        0 -> {
+                            val intent = Intent(this,qrCodeViewActivity::class.java)
+                            startActivity(intent)
+                        }
+                        1 -> {
+                            val intent = Intent(this,NewFlendRegisterActivity::class.java)
+                            startActivity(intent)
+                        }
+                        else -> {}
+                    }
+                }
+                .show()
         }
 
 
