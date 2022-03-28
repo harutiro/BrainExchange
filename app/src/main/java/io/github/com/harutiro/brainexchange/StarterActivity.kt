@@ -1,9 +1,12 @@
 package io.github.com.harutiro.brainexchange
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.ACTION_OPEN_DOCUMENT
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
@@ -16,13 +19,18 @@ import android.view.View.VISIBLE
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import coil.api.load
+import com.airbnb.lottie.utils.Logger.error
 import com.cloudinary.android.MediaManager
 import com.cloudinary.android.callback.ErrorInfo
 import com.cloudinary.android.callback.UploadCallback
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
@@ -36,6 +44,10 @@ import kotlin.text.isNullOrEmpty as isNullOrEmpty1
 
 
 class StarterActivity : AppCompatActivity() {
+
+    companion object {
+        private const val PERMISSION_REQUEST_CODE = 1234
+    }
 
     private lateinit var binding: ActivityStarterBinding
 
@@ -55,6 +67,17 @@ class StarterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityStarterBinding.inflate(layoutInflater).apply { setContentView(this.root) }
+
+        requestPermission()
+
+        if(intent.getBooleanExtra("newInstall",false)){
+            AlertDialog.Builder(this) // FragmentではActivityを取得して生成
+                .setTitle("操作方法")
+                .setMessage("脳内シートのところを押すと写真をとることができます。\nまた、下の項目では、気になるワードがあれば押してみてください。")
+                .setPositiveButton("OK") { _, _ ->
+                }
+                .show()
+        }
 
 //      シェアプリのインスタンス化
         val sp: SharedPreferences = getSharedPreferences("DateStore", Context.MODE_PRIVATE)
@@ -192,27 +215,41 @@ class StarterActivity : AppCompatActivity() {
         }
 
         binding.starterBrainImage.setOnClickListener {
-            val context: Context = applicationContext
+            val cameraPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+            val cameraRationale = ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)
+            if (cameraPermission != PackageManager.PERMISSION_GRANTED) {
+                if (cameraRationale) {
+                    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), PERMISSION_REQUEST_CODE)
 
-            // 保存先のフォルダー
-            val cFolder: File? = context.getExternalFilesDir(Environment.DIRECTORY_DCIM)
+                }else{
+                    val snackbar = Snackbar.make(findViewById(android.R.id.content),"カメラの権限が許可されていません", Snackbar.LENGTH_SHORT)
+                    snackbar.view.setBackgroundResource(R.color.error)
+                    snackbar.show()
+                }
+            }else{
+                val context: Context = applicationContext
 
-            //        *名前関係*       //
-            //　フォーマット作成
-            val fileDate: String = SimpleDateFormat("ddHHmmss", Locale.US).format(Date())
-            //　名前作成
-            val fileName: String = String.format("CameraIntent_%s.jpg", fileDate)
+                // 保存先のフォルダー
+                val cFolder: File? = context.getExternalFilesDir(Environment.DIRECTORY_DCIM)
 
-            //uriの前作成
-            val cameraFile: File = File(cFolder, fileName)
+                //        *名前関係*       //
+                //　フォーマット作成
+                val fileDate: String = SimpleDateFormat("ddHHmmss", Locale.US).format(Date())
+                //　名前作成
+                val fileName: String = String.format("CameraIntent_%s.jpg", fileDate)
 
-            //uri最終作成
-            currentPhotoUri = FileProvider.getUriForFile(this, context.packageName.toString() + ".fileprovider", cameraFile)
+                //uriの前作成
+                val cameraFile: File = File(cFolder, fileName)
+
+                //uri最終作成
+                currentPhotoUri = FileProvider.getUriForFile(this, context.packageName.toString() + ".fileprovider", cameraFile)
 
 
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, currentPhotoUri)
-            launcher.launch(intent)
+                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, currentPhotoUri)
+                launcher.launch(intent)
+            }
+
         }
 
 //        戻る→の表示
@@ -288,5 +325,28 @@ class StarterActivity : AppCompatActivity() {
             finish()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun requestPermission() {
+        val permissionAccessCoarseLocationApproved =
+            ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                    PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                    PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(this,Manifest.permission.CAMERA) ==
+                    PackageManager.PERMISSION_GRANTED
+
+        if (permissionAccessCoarseLocationApproved) {
+        } else {
+            // 位置情報の権限が無いため、許可を求める
+            ActivityCompat.requestPermissions(this,
+                arrayOf(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.CAMERA,
+                ),
+                PERMISSION_REQUEST_CODE
+            )
+        }
     }
 }

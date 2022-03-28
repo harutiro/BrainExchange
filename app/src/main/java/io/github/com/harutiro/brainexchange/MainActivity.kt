@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.AppLaunchChecker
 import com.cloudinary.android.MediaManager
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
@@ -21,6 +22,21 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).apply { setContentView(this.root) }
+
+        //＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝初回起動チェック
+        if(!AppLaunchChecker.hasStartedFromLauncher(this)){
+            AlertDialog.Builder(this) // FragmentではActivityを取得して生成
+                .setTitle("ようこそ")
+                .setMessage("ようこそ、ここではキャンプで書いた脳内シートを保存して、プロフ帳のように保存ができます。" +
+                        "初めに、あなたのプロフィールを登録しましょう。")
+                .setPositiveButton("OK") { _, _ ->
+                    val intent = Intent(this, StarterActivity::class.java)
+                    intent.putExtra("newInstall",true)
+                    startActivity(intent)
+                }
+                .show()
+        }
+        AppLaunchChecker.onActivityCreate(this)
 
         val config = mapOf(
             "cloud_name" to "dlg3xe2l2",
