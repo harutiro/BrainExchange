@@ -6,69 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".StarterActivity">
 
-    <View
-        android:id="@+id/starter_background_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#FABCBCBC"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/starter_qr_message_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/shape_rounded_corners_10dp"
-        android:backgroundTint="#FFFFFF"
-        android:padding="8dp"
-        android:text="QRコードが作成されました。"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/starter_qr_image_view" />
-
-    <ImageView
-        android:id="@+id/starter_qr_image_view"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_weight="1"
-        android:background="@drawable/shape_rounded_corners_10dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/qr_code_black_24dp" />
-
-    <Button
-        android:id="@+id/starter_finish_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="閉じる"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@+id/starter_qr_message_text_view"
-        app:layout_constraintStart_toStartOf="@+id/starter_qr_message_text_view"
-        app:layout_constraintTop_toBottomOf="@+id/starter_qr_message_text_view" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/staerter_fav"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/save_black_24dp"
-        tools:ignore="SpeakableTextPresentCheck" />
-
     <ScrollView
         android:id="@+id/scrollView3"
         android:layout_width="match_parent"
@@ -144,8 +81,8 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="32dp"
-                android:scaleType="centerInside"
                 android:adjustViewBounds="true"
+                android:scaleType="centerInside"
                 app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -203,5 +140,68 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <View
+        android:id="@+id/starter_background_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#FABCBCBC"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/starter_qr_message_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shape_rounded_corners_10dp"
+        android:backgroundTint="#FFFFFF"
+        android:padding="8dp"
+        android:text="QRコード生成中です。"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/starter_qr_image_view" />
+
+    <ImageView
+        android:id="@+id/starter_qr_image_view"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_weight="1"
+        android:background="@drawable/shape_rounded_corners_10dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/qr_code_black_24dp" />
+
+    <Button
+        android:id="@+id/starter_finish_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="閉じる"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/starter_qr_message_text_view"
+        app:layout_constraintStart_toStartOf="@+id/starter_qr_message_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/starter_qr_message_text_view" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/staerter_fav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/save_black_24dp"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
