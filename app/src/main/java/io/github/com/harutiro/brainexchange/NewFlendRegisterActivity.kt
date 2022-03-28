@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import androidx.core.content.ContextCompat
+import coil.api.load
 import com.google.android.material.chip.Chip
 import com.google.gson.Gson
 import io.github.com.harutiro.brainexchange.databinding.ActivityNewFlendRegisterBinding
@@ -33,6 +34,7 @@ class NewFlendRegisterActivity : AppCompatActivity() {
             val getYourProfile: ProfileDateClass = Gson().fromJson(getYourProfile, ProfileDateClass::class.java)
             binding.newFlendUserNameTextView.text = getYourProfile.userName
             binding.newFlendFacebookIdTextView.text = getYourProfile.facebookId
+            binding.newFlendBrainImage4.load(getYourProfile.brainImageUrl)
 
             setChip(getYourProfile.favNumbers,getMyProfile.favNumbers)
 

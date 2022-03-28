@@ -43,31 +43,52 @@
         app:srcCompat="@drawable/qr_code_scanner_black_24dp"
         tools:ignore="SpeakableTextPresentCheck" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/main_edit"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="プロフィールの編集"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:text="プロフィールの保存"
+        android:textAllCaps="false"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+        app:backgroundTint="#4169e1"
+        app:cornerRadius="20dp"
+        app:icon="@drawable/account_circle_black_36dp"
         app:layout_constraintBottom_toTopOf="@+id/main_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/main_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
         android:text="QRコードの表示"
+        android:textAllCaps="false"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+        app:backgroundTint="#4169e1"
+        app:cornerRadius="20dp"
+        app:icon="@drawable/qr_code_black_24dp"
         app:layout_constraintBottom_toTopOf="@+id/main_read"
         app:layout_constraintEnd_toEndOf="@+id/main_edit"
         app:layout_constraintStart_toStartOf="@+id/main_edit"
         app:layout_constraintTop_toBottomOf="@+id/main_edit" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/main_read"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
         android:text="QRコードを読み込む"
+        android:textAllCaps="false"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+        app:backgroundTint="#4169e1"
+        app:cornerRadius="20dp"
+        app:icon="@drawable/qr_code_scanner_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/main_view"
         app:layout_constraintStart_toStartOf="@+id/main_view"
