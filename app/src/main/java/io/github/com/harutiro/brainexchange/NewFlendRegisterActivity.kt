@@ -4,16 +4,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import com.google.android.gms.gcm.Task
 import com.google.android.material.chip.Chip
 import com.google.gson.Gson
 import io.github.com.harutiro.brainexchange.databinding.ActivityMainBinding
 import io.github.com.harutiro.brainexchange.databinding.ActivityNewFlendRegisterBinding
 import io.github.com.harutiro.brainexchange.date.ProfileDateClass
+import io.realm.Realm
+import io.realm.RealmConfiguration
 
 class NewFlendRegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityNewFlendRegisterBinding
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +31,8 @@ class NewFlendRegisterActivity : AppCompatActivity() {
             binding.newFlendFacebookIdTextView.text = getMyProfile.facebookId
 
             setChip(getMyProfile.favNumbers)
+
+
 
         }else{
             setChip("")
