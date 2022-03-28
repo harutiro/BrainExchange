@@ -1,17 +1,17 @@
 package io.github.com.harutiro.brainexchange
 
+import android.content.Context
+import android.content.SharedPreferences
+import android.content.res.ColorStateList
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
-import com.google.android.gms.gcm.Task
+import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
 import com.google.gson.Gson
-import io.github.com.harutiro.brainexchange.databinding.ActivityMainBinding
 import io.github.com.harutiro.brainexchange.databinding.ActivityNewFlendRegisterBinding
 import io.github.com.harutiro.brainexchange.date.ProfileDateClass
-import io.realm.Realm
-import io.realm.RealmConfiguration
 
 class NewFlendRegisterActivity : AppCompatActivity() {
 
@@ -21,21 +21,25 @@ class NewFlendRegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityNewFlendRegisterBinding.inflate(layoutInflater).apply { setContentView(this.root) }
 
+        //      シェアプリのインスタンス化
+        val sp: SharedPreferences = getSharedPreferences("DateStore", Context.MODE_PRIVATE)
+        val editor = sp.edit()
 
         val getYourProfile = intent.getStringExtra("getYourProfile")
 
         //        はめ込み部分
         if(!getYourProfile.isNullOrEmpty()){
-            val getMyProfile: ProfileDateClass = Gson().fromJson(getYourProfile, ProfileDateClass::class.java)
+            val getMyProfile: ProfileDateClass = Gson().fromJson(sp.getString("myProfile",""), ProfileDateClass::class.java)
+            val getYourProfile: ProfileDateClass = Gson().fromJson(getYourProfile, ProfileDateClass::class.java)
             binding.newFlendUserNameTextView.text = getMyProfile.userName
             binding.newFlendFacebookIdTextView.text = getMyProfile.facebookId
 
-            setChip(getMyProfile.favNumbers)
+            setChip(getYourProfile.favNumbers,getMyProfile.favNumbers)
 
 
 
         }else{
-            setChip("")
+            setChip("", "")
         }
 
         Log.d("debag",getYourProfile.toString())
@@ -45,7 +49,7 @@ class NewFlendRegisterActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
-    fun setChip(favNumbers: String) {
+    fun setChip(favYourNumber: String, favMyNumber: String) {
         val favoliteList:List<String> = listOf(
             "スポーツ",
             "アニメ",
@@ -76,10 +80,19 @@ class NewFlendRegisterActivity : AppCompatActivity() {
 
             // necessary to get single selection working
             chip.isCheckable = true
-            chip.isClickable = true
+            chip.isClickable = false
 
-            val favLists = favNumbers.split(",")
-            for(j in favLists){
+            val favYourLists = favYourNumber.split(",")
+            val favMyLists = favMyNumber.split(",")
+
+            for(j in favYourLists){
+                for(k in favMyLists){
+                    if( j == k && j == i){
+                        chip.chipBackgroundColor = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.purple_200))
+                        break
+                    }
+                }
+
                 if(i == j){
                     chip.isChecked = true
                     break
