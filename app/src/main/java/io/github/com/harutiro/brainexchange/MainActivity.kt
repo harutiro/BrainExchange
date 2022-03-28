@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.cloudinary.android.MediaManager
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
@@ -20,6 +21,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).apply { setContentView(this.root) }
+
+        val config = mapOf(
+            "cloud_name" to "dlg3xe2l2",
+            "api_key" to "693697224285166",
+            "api_secret" to "OTkrTsmgoXdEyBEtw2gTjiOs9oo"
+        )
+        MediaManager.init(this, config);
 
         binding.mainFav.setOnClickListener {
             val strList = arrayOf("QRコードを表示","QRコードを読み取る")
