@@ -67,4 +67,7 @@ dependencies {
     //cloudinary sdk
     implementation 'com.cloudinary:cloudinary-android:2.1.0'
 
+//    imageview URL
+    implementation 'io.coil-kt:coil:0.10.1'
+
 }
