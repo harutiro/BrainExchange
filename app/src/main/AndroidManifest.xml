@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BrainExchange">
         <activity
+            android:name=".qrCodeViewActivity"
+            android:exported="false" />
+        <activity
             android:name=".StarterActivity"
             android:exported="false" />
         <activity
