@@ -2,22 +2,28 @@ package io.github.com.harutiro.brainexchange
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View.VISIBLE
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.chip.Chip
 import com.google.gson.Gson
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.EncodeHintType
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
+import com.journeyapps.barcodescanner.BarcodeEncoder
 import io.github.com.harutiro.brainexchange.databinding.ActivityStarterBinding
-import io.github.com.harutiro.brainexchange.date.FavListClass
 import io.github.com.harutiro.brainexchange.date.ProfileDateClass
-import io.realm.RealmList
-import java.util.*
 
 class StarterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityStarterBinding
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityStarterBinding.inflate(layoutInflater).apply { setContentView(this.root) }
@@ -33,8 +39,6 @@ class StarterActivity : AppCompatActivity() {
             binding.starterFacebookIdEditText.setText(getMyProfile.facebookId)
 
             setChip(getMyProfile.favNumbers)
-
-
 
         }else{
             setChip("")
@@ -58,9 +62,33 @@ class StarterActivity : AppCompatActivity() {
             }
 
 //            gsonでmyProfileDateClassをJson化してStringで保存
-            editor.putString("myProfile",Gson().toJson(myProfile))
+            val jsonText = Gson().toJson(myProfile)
+            editor.putString("myProfile",jsonText)
             editor.apply()
 
+            // データをバーコードに変更するためのインスタンス
+            val barcodeEncoder = BarcodeEncoder()
+
+            try{
+                // ImageViewにBitmap形式の画像を設定
+                binding.starterQrImageView.setImageBitmap(
+                    // Bitmap形式でQRコードを生成
+                    barcodeEncoder.encodeBitmap(Gson().toJson(myProfile), BarcodeFormat.QR_CODE, 400, 400, mapOf(EncodeHintType.CHARACTER_SET to "UTF-8"))
+                )
+            } catch (e:Exception){
+                // 生成に失敗したらToastで通知
+                // ex) データが何も無い，エンコード可能なデータ量を超えた，etc...
+                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
+            }
+
+            binding.starterQrImageView.visibility = VISIBLE
+            binding.starterQrMessageTextView.visibility = VISIBLE
+            binding.starterFinishButton.visibility = VISIBLE
+
+
+        }
+
+        binding.starterFinishButton.setOnClickListener {
             finish()
         }
 

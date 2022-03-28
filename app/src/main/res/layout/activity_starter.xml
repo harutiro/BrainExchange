@@ -52,6 +52,7 @@
             android:inputType="textMultiLine"
             android:maxLines="1"
             android:textSize="14sp" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
@@ -104,6 +105,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scrollbars="none"
@@ -129,6 +131,46 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
+    <TextView
+        android:id="@+id/starter_qr_message_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shape_rounded_corners_10dp"
+        android:backgroundTint="#FFFFFF"
+        android:padding="8dp"
+        android:text="QRコードが作成されました。"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/starter_qr_image_view" />
+
+    <ImageView
+        android:id="@+id/starter_qr_image_view"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_weight="1"
+        android:background="@drawable/shape_rounded_corners_10dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/qr_code_black_24dp" />
+
+    <Button
+        android:id="@+id/starter_finish_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="閉じる"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/starter_qr_message_text_view"
+        app:layout_constraintStart_toStartOf="@+id/starter_qr_message_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/starter_qr_message_text_view" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/staerter_fav"
         android:layout_width="wrap_content"
@@ -139,4 +181,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/save_black_24dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
