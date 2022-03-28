@@ -13,12 +13,12 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.MenuItem
 import android.view.View.VISIBLE
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import coil.api.load
 import com.cloudinary.android.MediaManager
 import com.cloudinary.android.callback.ErrorInfo
 import com.cloudinary.android.callback.UploadCallback
@@ -32,13 +32,19 @@ import io.github.com.harutiro.brainexchange.date.ProfileDateClass
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.text.isNullOrEmpty as isNullOrEmpty1
 
 
 class StarterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityStarterBinding
 
+    val editor: SharedPreferences.Editor? = null
+
+
     private val TAG = "Upload ###"
+
+    var photoState = false
 
     //脳内シート画像
     lateinit var resitoImage: Bitmap
@@ -50,22 +56,18 @@ class StarterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityStarterBinding.inflate(layoutInflater).apply { setContentView(this.root) }
 
-        val config = mapOf(
-            "cloud_name" to "dlg3xe2l2",
-            "api_key" to "693697224285166",
-            "api_secret" to "OTkrTsmgoXdEyBEtw2gTjiOs9oo"
-        )
-        MediaManager.init(this, config);
-
 //      シェアプリのインスタンス化
         val sp: SharedPreferences = getSharedPreferences("DateStore", Context.MODE_PRIVATE)
-        val editor = sp.edit()
+        val editor: SharedPreferences.Editor = sp.edit()
 
 //        はめ込み部分
-        if(!sp.getString("myProfile","").isNullOrEmpty()){
+        if(!sp.getString("myProfile","").isNullOrEmpty1()){
             val getMyProfile: ProfileDateClass = Gson().fromJson(sp.getString("myProfile",""), ProfileDateClass::class.java)
             binding.starterUserNameEditText.setText(getMyProfile.userName)
             binding.starterFacebookIdEditText.setText(getMyProfile.facebookId)
+            if(getMyProfile.brainImageUrl.isNotEmpty()){
+                binding.starterBrainImage.load(getMyProfile.brainImageUrl)
+            }
 
             setChip(getMyProfile.favNumbers)
 
@@ -79,63 +81,102 @@ class StarterActivity : AppCompatActivity() {
 
 
         binding.staerterFav.setOnClickListener {
-            MediaManager.get().upload(currentPhotoUri).callback(object : UploadCallback {
-                override fun onStart(requestId: String) {
-                    Log.d(TAG, "onStart: " + "started")
-                }
-
-                override fun onProgress(requestId: String, bytes: Long, totalBytes: Long) {
-                    Log.d(TAG, "onStart: " + "uploading")
-                }
-
-                override fun onSuccess(requestId: String, resultData: Map<*, *>?) {
-                    Log.d(TAG, "onStart: " + "usuccess" + resultData?.get("secure_url"))
-
-                    val myProfile = ProfileDateClass()
-                    myProfile.userName = binding.starterUserNameEditText.text.toString()
-                    myProfile.facebookId = binding.starterFacebookIdEditText.text.toString()
-
-                    val getChipCheckedList = binding.starterChipGroup.checkedChipIds
-                    for(i in getChipCheckedList){
-                        val favString = findViewById<Chip>(i).text.toString()
-                        Log.d("debag", favString)
-                        myProfile.favNumbers += "$favString,"
+            if(photoState){
+                MediaManager.get().upload(currentPhotoUri).callback(object : UploadCallback {
+                    override fun onStart(requestId: String) {
+                        Log.d(TAG, "onStart: " + "started")
                     }
 
-                    //            gsonでmyProfileDateClassをJson化してStringで保存
-                    val jsonText = Gson().toJson(myProfile)
-                    editor.putString("myProfile",jsonText)
-                    editor.apply()
+                    override fun onProgress(requestId: String, bytes: Long, totalBytes: Long) {
+                        Log.d(TAG, "onStart: " + "uploading")
+                    }
 
-                    // データをバーコードに変更するためのインスタンス
-                    val barcodeEncoder = BarcodeEncoder()
+                    override fun onSuccess(requestId: String, resultData: Map<*, *>?) {
+                        Log.d(TAG, "onStart: " + "usuccess" + resultData?.get("secure_url"))
 
-                    try{
-                        // ImageViewにBitmap形式の画像を設定
-                        binding.starterQrImageView.setImageBitmap(
-                            // Bitmap形式でQRコードを生成
-                            barcodeEncoder.encodeBitmap(Gson().toJson(myProfile), BarcodeFormat.QR_CODE, 400, 400, mapOf(EncodeHintType.CHARACTER_SET to "UTF-8"))
-                        )
-                    } catch (e:Exception){
-                        // 生成に失敗したらToastで通知
-                        // ex) データが何も無い，エンコード可能なデータ量を超えた，etc...
+                        val myProfile = ProfileDateClass()
+                        myProfile.userName = binding.starterUserNameEditText.text.toString()
+                        myProfile.facebookId = binding.starterFacebookIdEditText.text.toString()
+                        myProfile.brainImageUrl = resultData?.get("secure_url").toString()
+
+                        val getChipCheckedList = binding.starterChipGroup.checkedChipIds
+                        for(i in getChipCheckedList){
+                            val favString = findViewById<Chip>(i).text.toString()
+                            Log.d("debag", favString)
+                            myProfile.favNumbers += "$favString,"
+                        }
+
+                        //            gsonでmyProfileDateClassをJson化してStringで保存
+                        val jsonText = Gson().toJson(myProfile)
+                        editor?.putString("myProfile",jsonText)
+                        editor?.apply()
+
+                        // データをバーコードに変更するためのインスタンス
+                        val barcodeEncoder = BarcodeEncoder()
+
+                        try{
+                            // ImageViewにBitmap形式の画像を設定
+                            binding.starterQrImageView.setImageBitmap(
+                                // Bitmap形式でQRコードを生成
+                                barcodeEncoder.encodeBitmap(Gson().toJson(myProfile), BarcodeFormat.QR_CODE, 400, 400, mapOf(EncodeHintType.CHARACTER_SET to "UTF-8"))
+                            )
+                        } catch (e:Exception){
+                            // 生成に失敗したらToastで通知
+                            // ex) データが何も無い，エンコード可能なデータ量を超えた，etc...
 //                        Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
+                        }
+
+                        binding.starterQrMessageTextView.text = "QRコードが作成されました。"
+
                     }
 
-                    binding.starterQrMessageTextView.text = "QRコードが作成されました。"
+                    override fun onError(requestId: String?, error: ErrorInfo) {
+                        Log.d(TAG, "onStart: $error")
+                    }
 
+                    override fun onReschedule(requestId: String?, error: ErrorInfo) {
+                        Log.d(TAG, "onStart: $error")
+                    }
+                }).dispatch()
+            }else{
+                val getMyProfile: ProfileDateClass = Gson().fromJson(sp.getString("myProfile",""), ProfileDateClass::class.java)
 
+                val myProfile = ProfileDateClass()
+                myProfile.userName = binding.starterUserNameEditText.text.toString()
+                myProfile.facebookId = binding.starterFacebookIdEditText.text.toString()
+                myProfile.brainImageUrl = getMyProfile.brainImageUrl
 
+                val getChipCheckedList = binding.starterChipGroup.checkedChipIds
+                for(i in getChipCheckedList){
+                    val favString = findViewById<Chip>(i).text.toString()
+                    Log.d("debag", favString)
+                    myProfile.favNumbers += "$favString,"
                 }
 
-                override fun onError(requestId: String?, error: ErrorInfo) {
-                    Log.d(TAG, "onStart: $error")
+                //            gsonでmyProfileDateClassをJson化してStringで保存
+                val jsonText = Gson().toJson(myProfile)
+                editor?.putString("myProfile",jsonText)
+                editor?.apply()
+
+                // データをバーコードに変更するためのインスタンス
+                val barcodeEncoder = BarcodeEncoder()
+
+                try{
+                    // ImageViewにBitmap形式の画像を設定
+                    binding.starterQrImageView.setImageBitmap(
+                        // Bitmap形式でQRコードを生成
+                        barcodeEncoder.encodeBitmap(Gson().toJson(myProfile), BarcodeFormat.QR_CODE, 400, 400, mapOf(EncodeHintType.CHARACTER_SET to "UTF-8"))
+                    )
+                } catch (e:Exception){
+                    // 生成に失敗したらToastで通知
+                    // ex) データが何も無い，エンコード可能なデータ量を超えた，etc...
+//                        Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
                 }
 
-                override fun onReschedule(requestId: String?, error: ErrorInfo) {
-                    Log.d(TAG, "onStart: $error")
-                }
-            }).dispatch()
+                binding.starterQrMessageTextView.text = "QRコードが作成されました。"
+            }
+
+
 
             binding.starterQrImageView.visibility = VISIBLE
             binding.starterQrMessageTextView.visibility = VISIBLE
@@ -186,6 +227,7 @@ class StarterActivity : AppCompatActivity() {
 
             binding.starterBrainImage.setImageURI(currentPhotoUri)
             uriString = currentPhotoUri.toString()
+            photoState = true
 
         }else{
             //メディアプレイヤーに追加したデータを消去する
