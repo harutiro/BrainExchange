@@ -52,6 +52,32 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
+        binding.mainView.setOnClickListener {
+            val intent = Intent(this, qrCodeViewActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.mainEdit.setOnClickListener {
+            val intent = Intent(this, StarterActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.mainRead.setOnClickListener {
+            // バーコードリーダの設定を作成
+            val options = ScanOptions()
+            // 画面回転のオンオフ trueで回転しない，falseで回転する
+            options.setOrientationLocked(true)
+            // 読み込み画面で表示されるテキストを設定
+            options.setPrompt("枠内にバーコードを収めてください")
+            // バーコードリーダの立ち上げ
+            barcodeLauncher.launch(options)
+        }
+
+
+
+
+
     }
 
     // バーコードの読み込み後の処理．フィールドとして定義すること
