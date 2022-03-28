@@ -31,8 +31,8 @@ class NewFlendRegisterActivity : AppCompatActivity() {
         if(!getYourProfile.isNullOrEmpty()){
             val getMyProfile: ProfileDateClass = Gson().fromJson(sp.getString("myProfile",""), ProfileDateClass::class.java)
             val getYourProfile: ProfileDateClass = Gson().fromJson(getYourProfile, ProfileDateClass::class.java)
-            binding.newFlendUserNameTextView.text = getMyProfile.userName
-            binding.newFlendFacebookIdTextView.text = getMyProfile.facebookId
+            binding.newFlendUserNameTextView.text = getYourProfile.userName
+            binding.newFlendFacebookIdTextView.text = getYourProfile.facebookId
 
             setChip(getYourProfile.favNumbers,getMyProfile.favNumbers)
 
