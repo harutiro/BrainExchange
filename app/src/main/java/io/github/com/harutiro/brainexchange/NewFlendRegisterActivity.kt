@@ -2,6 +2,7 @@ package io.github.com.harutiro.brainexchange
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 
 class NewFlendRegisterActivity : AppCompatActivity() {
@@ -9,6 +10,10 @@ class NewFlendRegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_flend_register)
 
+        val getYourProfile = intent.getStringExtra("getYourProfile")
+        
+
+        Log.d("debag",getYourProfile.toString())
 
 //        戻る→の表示
         supportActionBar!!.setDisplayShowHomeEnabled(true)
