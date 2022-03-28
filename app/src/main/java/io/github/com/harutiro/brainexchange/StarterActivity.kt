@@ -84,6 +84,8 @@ class StarterActivity : AppCompatActivity() {
             binding.starterQrImageView.visibility = VISIBLE
             binding.starterQrMessageTextView.visibility = VISIBLE
             binding.starterFinishButton.visibility = VISIBLE
+            binding.starterBackgroundView.visibility = VISIBLE
+            binding.staerterFav.isEnabled = false
 
 
         }
@@ -104,6 +106,10 @@ class StarterActivity : AppCompatActivity() {
             "開発",
             "ゲーム",
             "デザイン",
+            "ドラマ",
+            "映画",
+            "音楽",
+            "旅行",
             "Android",
             "Unity",
             "DTM",
@@ -116,15 +122,6 @@ class StarterActivity : AppCompatActivity() {
             "デザイナー",
             "映像制作",
             "カメラフォト",
-            "Kotlin",
-            "Java",
-            "C#",
-            "Swift",
-            "HTML",
-            "CSS",
-            "JavaScript",
-            "Ruby",
-            "Ruby","Ruby","Ruby","Ruby","Ruby","Ruby","Ruby","Ruby","Ruby","Ruby","Ruby","Ruby","Ruby","Ruby","Ruby","Ruby","Ruby","Ruby","Ruby","Ruby","Ruby","Ruby","Ruby",
         )
 
         for (i in favoliteList) {
